@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Letter</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #fdf6ec, #fce1e4);
+    overflow: hidden;
+    text-align: center;
+    transition: 1s ease;
+}
+
+h1 {
+    margin-top: 80px;
+    font-size: 38px;
+    color: #5c3d2e;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+#yesBtn {
+    background-color: #ff6b81;
+    color: white;
+    position: absolute;
+}
+
+#noBtn {
+    background-color: #5c3d2e;
+    color: white;
+    margin-top: 40px;
+}
+
+#message {
+    margin-top: 40px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#retryBtn {
+    display: none;
+    margin-top: 20px;
+    background-color: #d4a373;
+    color: white;
+}
+
+/* LETTER OVERLAY */
+
+#letterContainer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, #e6ccb2, #7f5539);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#letter {
+    width: 360px;
+    height: 220px;
+    background: #fdf1d6;
+    border: 2px solid #a98467;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    position: relative;
+    cursor: pointer;
+    transition: 1s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#waxSeal {
+    width: 60px;
+    height: 60px;
+    background: #8b0000;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -30px;
+    box-shadow: 0 0 15px rgba(255,215,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: gold;
+    font-weight: bold;
+}
+
+#letter.open {
+    height: 520px;
+}
+
+#letterContent {
+    display: none;
+    padding: 25px;
+    font-size: 17px;
+    color: #5c3d2e;
+    text-align: left;
+    line-height: 1.7;
+    opacity: 0;
+    transition: 2s ease;
+}
+
+.signature {
+    margin-top: 20px;
+    font-style: italic;
+    text-align: right;
+}
+
+/* floating dust */
+.dust {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50%;
+    animation: float 6s infinite ease-in;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Will You Be My Valentine? ❤️</h1>
+
+<button id="yesBtn">Hell Yes ❤️</button>
+<br>
+<button id="noBtn">Absolutely Not 💔</button>
+
+<div id="message"></div>
+<button id="retryBtn">Do you want to try again?</button>
+
+<div id="letterContainer">
+    <div id="letter">
+        <div>📜 Sealed Letter</div>
+        <div id="waxSeal">✉</div>
+    </div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+const retryBtn = document.getElementById("retryBtn");
+const letterContainer = document.getElementById("letterContainer");
+const letter = document.getElementById("letter");
+const music = document.getElementById("bgMusic");
+
+let attempts = 0;
+
+yesBtn.style.left = "45%";
+yesBtn.style.top = "50%";
+
+function moveButton() {
+    attempts++;
+    yesBtn.style.left = Math.random() * (window.innerWidth - 150) + "px";
+    yesBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+
+    if (attempts >= 10) {
+        yesBtn.style.display = "none";
+        message.innerText = "Bro find a girl in Odisha 🤣";
+        retryBtn.style.display = "inline-block";
+    }
+}
+
+yesBtn.addEventListener("mouseover", moveButton);
+yesBtn.addEventListener("touchstart", moveButton);
+
+retryBtn.addEventListener("click", () => {
+    document.body.style.background = "#7f5539";
+    document.querySelector("h1").style.display = "none";
+    message.style.display = "none";
+    retryBtn.style.display = "none";
+    letterContainer.style.display = "flex";
+    music.play().catch(()=>{});
+});
+
+letter.addEventListener("click", () => {
+    letter.classList.add("open");
+    letter.innerHTML = `
+    <div id="letterContent">
+    Heyyy 💛<br><br>
+
+    Thank you for always being there for me…<br>
+    (Except after 11 PM, because you sleep like a koala 🐨)<br><br>
+
+    Thank you for staying even after 10,000,000,000+ blocks and unblocks.<br>
+    Even when I put zero effort, you still chose to be there.<br><br>
+
+    That kind of consistency… I don’t take it lightly.<br><br>
+
+    Thank you for everything. Truly.<br><br>
+
+    I pray you achieve every single dream you wish for.<br>
+    You deserve more and more in life…<br>
+    even the dreams that don’t include me.<br><br>
+
+    I just wanted to say thank you.<br><br>
+
+    <div class="signature">
+    — From someone who still cares 🌙
+    </div>
+    </div>
+    `;
+    const content = document.getElementById("letterContent");
+    content.style.display = "block";
+    setTimeout(()=>{ content.style.opacity = "1"; }, 200);
+});
+
+function createDust() {
+    const dust = document.createElement("div");
+    dust.classList.add("dust");
+    dust.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(dust);
+    setTimeout(()=> dust.remove(), 6000);
+}
+setInterval(createDust, 500);
+
+</script>
+
+</body>
+</html>
