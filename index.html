@@ -191,6 +191,8 @@ retryBtn.addEventListener("click", () => {
     message.style.display = "none";
     retryBtn.style.display = "none";
     letterContainer.style.display = "flex";
+
+    music.currentTime = 127; // 2:07
     music.play().catch(()=>{});
 });
 
